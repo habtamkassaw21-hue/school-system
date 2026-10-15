@@ -1,0 +1,7 @@
+.grades-container { padding: 30px; background-color: #f8fafc; flex: 1; }
+.grades-container h3 { color: #1e3a8a; margin-bottom: 20px; }
+.grades-form { display: flex; gap: 15px; margin-bottom: 20px; }
+.grades-form input { padding: 10px; border: 1px solid #cbd5e1; border-radius: 5px; flex: 1; }
+.grades-table { width: 100%; border-collapse: collapse; }
+.grades-table th, .grades-table td { padding: 12px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+.grades-table th { background-color: #f1f5f9; color: #1e3a8a; }

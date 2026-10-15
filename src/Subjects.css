@@ -1,0 +1,109 @@
+.subjects-container {
+  padding: 20px;
+}
+
+.subjects-header {
+  color: #1e293b;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.subjects-form-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.subjects-form {
+  display: flex;
+  gap: 10px;
+}
+
+.subjects-input {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  outline: none;
+}
+
+.subjects-input:focus {
+  border-color: #2563eb;
+}
+
+.subjects-btn {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.subjects-btn:hover {
+  background: #1d4ed8;
+}
+
+.subjects-table-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  overflow: hidden;
+}
+
+.subjects-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.subjects-th {
+  border-bottom: 1px solid #f1f5f9;
+  color: #64748b;
+  font-size: 14px;
+  padding: 16px;
+  background: #f8fafc;
+}
+
+.subjects-tr {
+  border-bottom: 1px solid #f8fafc;
+  color: #334155;
+  transition: background 0.2s;
+}
+
+.subjects-tr:hover {
+  background: #f8fafc;
+}
+
+.subjects-td {
+  padding: 16px;
+}
+
+.subjects-td-name {
+  padding: 16px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.delete-btn {
+  background: #ffe4e6;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.delete-btn:hover {
+  background: #fecdd3;
+}
+
+.no-data {
+  text-align: center;
+  padding: 20px;
+  color: #94a3b8;
+}

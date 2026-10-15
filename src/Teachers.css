@@ -1,0 +1,88 @@
+.teachers-container {
+  padding: 30px;
+  background-color: #f8fafc;
+  flex: 1;
+}
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.teachers-container h3 {
+  color: #1e3a8a;
+  margin: 0;
+}
+
+.form-card, .table-card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  margin-bottom: 20px;
+}
+
+.form-card h4, .table-card h4 {
+  margin-bottom: 15px;
+  color: #334155;
+}
+
+.teacher-form {
+  display: flex;
+  gap: 15px;
+}
+
+.teacher-form input {
+  padding: 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 5px;
+  font-size: 14px;
+  flex: 1;
+}
+
+.add-btn {
+  padding: 10px 20px;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.add-btn:hover {
+  background-color: #1d4ed8;
+}
+
+.teacher-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.teacher-table th, .teacher-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 14px;
+}
+
+.teacher-table th {
+  background-color: #f1f5f9;
+  color: #1e3a8a;
+}
+
+.delete-btn {
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.delete-btn:hover {
+  background-color: #dc2626;
+}

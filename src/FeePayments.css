@@ -1,0 +1,8 @@
+.fees-container { padding: 30px; background-color: #f8fafc; flex: 1; }
+.fees-container h3 { color: #1e3a8a; margin-bottom: 20px; }
+.fees-table { width: 100%; border-collapse: collapse; }
+.fees-table th, .fees-table td { padding: 12px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+.fees-table th { background-color: #f1f5f9; color: #1e3a8a; }
+.status-badge.paid { background-color: #d1fae5; color: #065f46; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
+.status-badge.pending { background-color: #fee2e2; color: #991b1b; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
+.toggle-btn { background-color: #2563eb; color: white; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; }

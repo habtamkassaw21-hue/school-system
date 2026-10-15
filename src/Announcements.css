@@ -1,0 +1,7 @@
+.announcements-container { padding: 30px; background-color: #f8fafc; flex: 1; }
+.announcements-container h3 { color: #1e3a8a; margin-bottom: 20px; }
+.ann-form { display: flex; flex-direction: column; gap: 10px; }
+.ann-form input, .ann-form textarea { padding: 10px; border: 1px solid #cbd5e1; border-radius: 5px; }
+.ann-card { background: white; padding: 15px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+.ann-header { display: flex; justify-content: space-between; margin-bottom: 8px; color: #1e3a8a; }
+.ann-date { font-size: 12px; color: #64748b; }

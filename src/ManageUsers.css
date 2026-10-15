@@ -1,0 +1,7 @@
+.manage-users-container { padding: 30px; background-color: #f8fafc; flex: 1; }
+.manage-users-container h3 { color: #1e3a8a; margin-bottom: 20px; }
+.user-form { display: flex; gap: 15px; margin-bottom: 20px; }
+.user-form input, .user-form select { padding: 10px; border: 1px solid #cbd5e1; border-radius: 5px; flex: 1; }
+.user-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+.user-table th, .user-table td { padding: 12px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+.user-table th { background-color: #f1f5f9; color: #1e3a8a; }
