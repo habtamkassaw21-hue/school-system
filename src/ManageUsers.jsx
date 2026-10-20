@@ -1,50 +1,66 @@
 import React, { useState, useEffect } from 'react';
 import './ManageUsers.css';
-
-// ነባሪ ዩዘሮች
-const defaultUsers = [
-  { id: 1, username: 'admin', role: 'Admin', password: '123' },
-  { id: 2, username: 'teacher', role: 'Teacher', password: '456' },
-  { id: 3, username: 'student', role: 'Student', password: '789' }
-];
+import API_BASE_URL from './api';
 
 function ManageUsers() {
-  // ከ localStorage መረጃውን ያነባል፤ ከሌለ defaultUsers ይመልሳል
-  const [users, setUsers] = useState(() => {
-    const saved = localStorage.getItem('system_users');
-    return saved ? JSON.parse(saved) : defaultUsers;
-  });
-
+  const [users, setUsers] = useState([]);
   const [newUsername, setNewUsername] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [newRole, setNewRole] = useState('Student');
   const [editingId, setEditingId] = useState(null);
 
-  // ዝርዝሩ በተቀየረ ቁጥር localStorage ውስጥ ያድሳል
+  // ከዳታቤዝ ዩዘሮችን ለማምጣት
+  const fetchUsers = () => {
+    fetch(`${API_BASE_URL}/api/users`)
+      .then((res) => res.json())
+      .then((data) => setUsers(data))
+      .catch((err) => console.error("Error fetching users:", err));
+  };
+
   useEffect(() => {
-    localStorage.setItem('system_users', JSON.stringify(users));
-  }, [users]);
+    fetchUsers();
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (newUsername && newPassword) {
       if (editingId !== null) {
-        setUsers(users.map(u => u.id === editingId ? { ...u, username: newUsername, password: newPassword, role: newRole } : u));
-        alert(`User '${newUsername}' updated successfully!`);
-        setEditingId(null);
+        // ዩዘርን ማስተካከል (PUT)
+        fetch(`${API_BASE_URL}/api/users/${editingId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: newUsername, password: newPassword, role: newRole })
+        })
+          .then((res) => res.json())
+          .then(() => {
+            alert(`User '${newUsername}' updated successfully!`);
+            fetchUsers();
+            handleCancelEdit();
+          })
+          .catch((err) => console.error('Error updating user:', err));
       } else {
+        // አዲስ ዩዘር መፍጠር (POST)
         const newUser = {
-          id: users.length > 0 ? Math.max(...users.map(u => u.id)) + 1 : 1,
           username: newUsername,
-          role: newRole,
-          password: newPassword
+          password: newPassword,
+          role: newRole
         };
-        setUsers([...users, newUser]);
-        alert(`User '${newUsername}' created successfully!`);
+
+        fetch(`${API_BASE_URL}/api/users`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newUser)
+        })
+          .then((res) => res.json())
+          .then(() => {
+            alert(`User '${newUsername}' created successfully!`);
+            fetchUsers();
+            setNewUsername('');
+            setNewPassword('');
+            setNewRole('Student');
+          })
+          .catch((err) => console.error('Error creating user:', err));
       }
-      setNewUsername('');
-      setNewPassword('');
-      setNewRole('Student');
     }
   };
 
@@ -57,7 +73,14 @@ function ManageUsers() {
 
   const handleDelete = (id) => {
     if (window.confirm('Are you sure you want to delete this user?')) {
-      setUsers(users.filter(u => u.id !== id));
+      fetch(`${API_BASE_URL}/api/users/${id}`, {
+        method: 'DELETE',
+      })
+        .then((res) => res.json())
+        .then(() => {
+          fetchUsers();
+        })
+        .catch((err) => console.error('Error deleting user:', err));
     }
   };
 
@@ -118,28 +141,36 @@ function ManageUsers() {
             </tr>
           </thead>
           <tbody>
-            {users.map((u) => (
-              <tr key={u.id}>
-                <td>{u.id}</td>
-                <td>{u.username}</td>
-                <td><strong>{u.role}</strong></td>
-                <td>{u.password}</td>
-                <td style={{ textAlign: 'center' }}>
-                  <button 
-                    onClick={() => handleEdit(u)}
-                    style={{ background: '#3b82f6', color: 'white', border: 'none', padding: '5px 10px', borderRadius: '4px', marginRight: '8px', cursor: 'pointer', fontWeight: '600' }}
-                  >
-                    ✏️ Edit
-                  </button>
-                  <button 
-                    onClick={() => handleDelete(u.id)}
-                    style={{ background: '#ef4444', color: 'white', border: 'none', padding: '5px 10px', borderRadius: '4px', cursor: 'pointer', fontWeight: '600' }}
-                  >
-                    🗑️ Delete
-                  </button>
+            {users && users.length > 0 ? (
+              users.map((u) => (
+                <tr key={u.id}>
+                  <td>{u.id}</td>
+                  <td>{u.username}</td>
+                  <td><strong>{u.role}</strong></td>
+                  <td>{u.password}</td>
+                  <td style={{ textAlign: 'center' }}>
+                    <button 
+                      onClick={() => handleEdit(u)}
+                      style={{ background: '#3b82f6', color: 'white', border: 'none', padding: '5px 10px', borderRadius: '4px', marginRight: '8px', cursor: 'pointer', fontWeight: '600' }}
+                    >
+                      ✏️ Edit
+                    </button>
+                    <button 
+                      onClick={() => handleDelete(u.id)}
+                      style={{ background: '#ef4444', color: 'white', border: 'none', padding: '5px 10px', borderRadius: '4px', cursor: 'pointer', fontWeight: '600' }}
+                    >
+                      🗑️ Delete
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="5" style={{ textAlign: 'center', padding: '20px', color: '#94a3b8' }}>
+                  ምንም ዩዘር በዳታቤዝ ውስጥ አልተገኘም።
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>

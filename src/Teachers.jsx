@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import API_BASE_URL from './api';
 
 function Teachers() {
   const [viewMode, setViewMode] = useState('list');
@@ -11,7 +12,7 @@ function Teachers() {
   const [photoFile, setPhotoFile] = useState(null);
 
   const fetchTeachers = () => {
-    fetch('http://localhost:5000/api/teachers')
+    fetch(`${API_BASE_URL}/api/teachers`)
       .then((res) => res.json())
       .then((data) => setTeachers(data))
       .catch((err) => console.error("Error fetching teachers:", err));
@@ -33,8 +34,8 @@ function Teachers() {
     }
 
     const url = editId 
-      ? `http://localhost:5000/api/teachers/${editId}` 
-      : 'http://localhost:5000/api/teachers';
+      ? `${API_BASE_URL}/api/teachers/${editId}` 
+      : `${API_BASE_URL}/api/teachers`;
     
     const method = editId ? 'PUT' : 'POST';
 
@@ -65,7 +66,7 @@ function Teachers() {
 
   const handleDeleteTeacher = (id) => {
     if (window.confirm('እርግጠኛ ነዎት ይህንን መምህር ማጥፋት ይፈልጋሉ?')) {
-      fetch(`http://localhost:5000/api/teachers/${id}`, {
+      fetch(`${API_BASE_URL}/api/teachers/${id}`, {
         method: 'DELETE',
       })
         .then((res) => res.json())
@@ -126,7 +127,7 @@ function Teachers() {
                       <td style={{ padding: '16px' }}>{index + 1}</td>
                       <td style={{ padding: '16px' }}>
                         <img 
-                          src={teacher.photo ? `http://localhost:5000${teacher.photo}` : "https://via.placeholder.com/40"} 
+                          src={teacher.photo ? `${API_BASE_URL}${teacher.photo}` : "https://via.placeholder.com/40"} 
                           alt="Teacher" 
                           style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }} 
                         />

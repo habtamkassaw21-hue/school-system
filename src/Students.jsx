@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Students.css';
+import API_BASE_URL from './api';
 
 function Students() {
   const [viewMode, setViewMode] = useState('list'); 
@@ -12,7 +13,7 @@ function Students() {
 
   // ከዳታቤዝ መረጃዎችን ለማምጣት
   const fetchStudents = () => {
-    fetch('http://localhost:5000/api/students')
+    fetch(`${API_BASE_URL}/api/students`)
       .then((res) => res.json())
       .then((data) => {
         console.log("Fetched students:", data);
@@ -36,7 +37,7 @@ function Students() {
       gender: gender
     };
 
-    fetch('http://localhost:5000/api/students', {
+    fetch(`${API_BASE_URL}/api/students`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newStudentData)
