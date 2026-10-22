@@ -7,8 +7,9 @@ const fs = require('fs');
 
 const app = express();
 
+// CORS ማስተካከያ
 app.use(cors({
-  origin: '*',
+  origin: '*', 
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type']
 }));
@@ -16,6 +17,7 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Uploads Folder Config
 const uploadDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir);
@@ -32,11 +34,12 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
+// Database Connection
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'school_db'
+  host: process.env.DB_HOST || 'localhost',
+  user: process.env.DB_USER || 'root',
+  password: process.env.DB_PASSWORD || '',
+  database: process.env.DB_NAME || 'school_db'
 });
 
 db.connect((err) => {
@@ -46,6 +49,10 @@ db.connect((err) => {
   }
   console.log('Successfully Connected to MySQL Database!');
 });
+
+// --- STATIC FRONTEND FILES (React Build ን በ Render ለማቅረብ) ---
+// `build` ፎልደርህ በ `src` ውስጥ ስለሆነ
+app.use(express.static(path.join(__dirname, 'build')));
 
 // --- DASHBOARD STATS API ---
 app.get('/api/dashboard-stats', (req, res) => {
@@ -145,7 +152,7 @@ app.delete('/api/teachers/:id', (req, res) => {
   });
 });
 
-// --- CLASSES API (ከ Student Count ጋር) ---
+// --- CLASSES API ---
 app.get('/api/classes', (req, res) => {
   const sql = `
     SELECT classes.*, COUNT(students.id) AS student_count 
@@ -259,7 +266,7 @@ app.post('/api/attendance', (req, res) => {
   const { student_name, class_name, status } = req.body;
   const sql = 'INSERT INTO attendance (student_name, class_name, status) VALUES (?, ?, ?)';
   db.query(sql, [student_name, class_name, status || 'Present'], (err, result) => {
-    if (err) return res.status(500).json({ error: err.message });
+    if (err) return res.status(500).json({ error: 'Database error' });
     res.json({ message: 'Attendance added successfully!', id: result.insertId });
   });
 });
@@ -316,6 +323,14 @@ app.delete('/api/announcements/:id', (req, res) => {
   });
 });
 
-app.listen(5000, () => {
-  console.log('Backend Server is running on http://localhost:5000');
+// --- FRONTEND ROUTING WILDCARD ---
+// ከ API ውጭ ያሉ ማናቸውንም የብራውዘር ጥያቄዎች ወደ React's index.html እንዲመሩ ማድረግ
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
+// SERVER LISTEN
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Backend Server is running on port ${PORT}`);
 });
